@@ -48,10 +48,10 @@ export const Header = ({ className = '' }: HeaderProps) => {
         </div>
         <div>
           <Link 
-            href="/signin" 
+            href="/login" 
             className="block md:inline-block hover:text-gray-400 transition-colors"
           >
-            サインイン
+            ログイン
           </Link>
         </div>
       </nav>

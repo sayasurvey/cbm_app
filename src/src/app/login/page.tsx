@@ -6,11 +6,12 @@ import { Button } from '../ui/button/Button';
 import { TextField } from '../ui/input/TextField';
 import Layout from '../ui/layout/Layout';
 
-const SigninForm = () => {
+const LoginForm = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
+  const [error, setError] = useState<string>('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -18,12 +19,37 @@ const SigninForm = () => {
       ...prev,
       [name]: value
     }));
+    setError('');
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // サインイン処理をここに実装
-    console.log('Form submitted:', formData);
+    setError('');
+  
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+        credentials: 'include',
+      });
+  
+      const data = await response.json();
+  
+      if (!response.ok) {
+        throw new Error(data.error || 'ログインに失敗しました');
+      }
+  
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify(data.user));
+      
+      window.location.href = '/books';
+    } catch (error) {
+      console.error('ログインエラー:', error);
+      setError(error instanceof Error ? error.message : 'ログインに失敗しました');
+    }
   };
 
   return (
@@ -32,9 +58,14 @@ const SigninForm = () => {
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
             <h2 className="text-center text-2xl font-bold leading-9 tracking-tight text-gray-600">
-              サインイン
+              ログイン
             </h2>
           </div>
+          {error && (
+            <div className="mt-2 text-center text-sm text-red-600">
+              {error}
+            </div>
+          )}
           <form className="space-y-5" onSubmit={handleSubmit}>
             <div>
               <TextField
@@ -55,7 +86,7 @@ const SigninForm = () => {
             <div>
               <div className="mt-6">
                 <Button
-                  value="サインイン"
+                  value="ログイン"
                   type="submit"
                 />
               </div>
@@ -76,4 +107,4 @@ const SigninForm = () => {
   );
 };
 
-export default SigninForm;
+export default LoginForm;
