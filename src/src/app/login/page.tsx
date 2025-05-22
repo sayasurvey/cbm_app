@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Button } from '../ui/button/Button';
 import { TextField } from '../ui/input/TextField';
 import Layout from '../ui/layout/Layout';
+import { useAuth } from '../hooks/useAuth';
 
 const LoginForm = () => {
   const [formData, setFormData] = useState({
@@ -12,6 +13,7 @@ const LoginForm = () => {
     password: ''
   });
   const [error, setError] = useState<string>('');
+  const { login } = useAuth();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -26,29 +28,12 @@ const LoginForm = () => {
     e.preventDefault();
     setError('');
   
-    try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-        credentials: 'include',
-      });
-  
-      const data = await response.json();
-  
-      if (!response.ok) {
-        throw new Error(data.error || 'ログインに失敗しました');
-      }
-  
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('user', JSON.stringify(data.user));
-      
+    const result = await login(formData.email, formData.password);
+    
+    if (result.success) {
       window.location.href = '/books';
-    } catch (error) {
-      console.error('ログインエラー:', error);
-      setError(error instanceof Error ? error.message : 'ログインに失敗しました');
+    } else {
+      setError(result.error || 'ログインに失敗しました');
     }
   };
 
