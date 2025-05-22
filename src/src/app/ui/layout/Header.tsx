@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 type HeaderProps = {
   className?: string;
@@ -9,6 +9,19 @@ type HeaderProps = {
 
 export const Header = ({ className = '' }: HeaderProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    setIsLoggedIn(!!token);
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    setIsLoggedIn(false);
+    window.location.href = '/login';
+  };
 
   return (
     <header className={`bg-gray-800 p-4 text-white flex justify-between items-center z-50 ${className}`}>
@@ -47,12 +60,21 @@ export const Header = ({ className = '' }: HeaderProps) => {
           </Link>
         </div>
         <div>
-          <Link 
-            href="/login" 
-            className="block md:inline-block hover:text-gray-400 transition-colors"
-          >
-            ログイン
-          </Link>
+          {isLoggedIn ? (
+            <button
+              onClick={handleLogout}
+              className="block md:inline-block hover:text-gray-400 transition-colors"
+            >
+              ログアウト
+            </button>
+          ) : (
+            <Link 
+              href="/login" 
+              className="block md:inline-block hover:text-gray-400 transition-colors"
+            >
+              ログイン
+            </Link>
+          )}
         </div>
       </nav>
     </header>
