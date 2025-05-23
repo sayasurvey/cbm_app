@@ -4,11 +4,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { useAuth } from '../../hooks/useAuth';
 
-type HeaderProps = {
-  className?: string;
-};
-
-export const Header = ({ className = '' }: HeaderProps) => {
+export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { isLoggedIn, logout } = useAuth();
 
@@ -18,7 +14,7 @@ export const Header = ({ className = '' }: HeaderProps) => {
   };
 
   return (
-    <header className={`bg-gray-800 p-4 text-white flex justify-between items-center z-50 ${className}`}>
+    <header className={`bg-gray-800 p-4 text-white flex justify-between items-center z-50`}>
       <div>
         <Link 
           href="/books" 
