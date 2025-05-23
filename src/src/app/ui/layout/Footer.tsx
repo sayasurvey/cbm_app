@@ -2,7 +2,6 @@
 
 type FooterProps = {
   className?: string;
-  year?: number;
 };
 
 export const Footer = ({ 
