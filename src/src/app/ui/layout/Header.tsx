@@ -33,22 +33,26 @@ export const Header = () => {
         bg-gray-800 md:bg-transparent
         p-4 md:p-0
       `}>
-        <div>
-          <Link 
-            href="/books" 
-            className="block md:inline-block mr-3 hover:text-gray-400 transition-colors"
-          >
-            本の一覧
-          </Link>
-        </div>
-        <div>
-          <Link 
-            href="/books/register" 
-            className="block md:inline-block mr-3 hover:text-gray-400 transition-colors"
-          >
-            本の登録
-          </Link>
-        </div>
+        {isLoggedIn && (
+          <>
+            <div>
+              <Link 
+                href="/books" 
+                className="block md:inline-block mr-3 hover:text-gray-400 transition-colors"
+              >
+                本の一覧
+              </Link>
+            </div>
+            <div>
+              <Link 
+                href="/books/register" 
+                className="block md:inline-block mr-3 hover:text-gray-400 transition-colors"
+              >
+                本の登録
+              </Link>
+            </div>
+          </>
+        )}
         <div>
           {isLoggedIn ? (
             <button
