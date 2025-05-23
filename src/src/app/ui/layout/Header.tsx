@@ -16,12 +16,18 @@ export const Header = () => {
   return (
     <header className={`bg-gray-800 p-4 text-white flex justify-between items-center z-50`}>
       <div>
-        <Link 
-          href="/books" 
-          className="text-2xl font-bold hover:text-gray-400 transition-colors"
-        >
-          Booking
-        </Link>
+        {isLoggedIn ? (
+          <Link 
+            href="/books" 
+            className="text-2xl font-bold hover:text-gray-400 transition-colors"
+          >
+            Booking
+          </Link>
+        ) : (
+          <span className="text-2xl font-bold">
+            Booking
+          </span>
+        )}
       </div>
 
       <nav className={`
