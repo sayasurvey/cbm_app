@@ -2,9 +2,9 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Button } from '../ui/button/Button';
-import { TextField } from '../ui/input/TextField';
-import Layout from '../ui/layout/Layout';
+import { Button } from '../ui/buttons/Button';
+import { TextField } from '../ui/inputs/TextField';
+import Layout from '../ui/layouts/Layout';
 import { useAuth } from '../hooks/useAuth';
 
 const LoginForm = () => {
