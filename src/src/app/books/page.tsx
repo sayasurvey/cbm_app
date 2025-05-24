@@ -1,9 +1,14 @@
-const BooksPage = () => {
-  return (
-    <div style={{ textAlign: 'center', marginTop: '2rem', fontSize: '1.5rem' }}>
-      本一覧です
-    </div>
-  );
-};
+import Layout from '../ui/layouts/Layout';
+import { BookList } from '../ui/books/BookList';
+import { Title }  from '../ui/utils/Title';
 
-export default BooksPage;
+const BooksForm = () => {
+  return (
+    <Layout>
+      <Title value="本一覧"/>
+      <BookList />
+    </Layout>
+  );
+}
+
+export default BooksForm;
