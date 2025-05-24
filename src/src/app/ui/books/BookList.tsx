@@ -5,14 +5,14 @@ import { BorrowingModal } from './BorrowingModal';
 import { fetcher } from '../../../../lib/utils';
 
 interface Book {
-  imageUrl: string;
+  image_url: string;
   title: string;
   loanable: boolean;
 }
 
 interface BookCardProps extends Book {}
 
-function BookCard({ imageUrl, title, loanable }: BookCardProps): ReactElement {
+function BookCard({ image_url, title, loanable }: BookCardProps): ReactElement {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleBorrowClick = () => {
@@ -23,9 +23,9 @@ function BookCard({ imageUrl, title, loanable }: BookCardProps): ReactElement {
 
   return (
     <div className='border border-bd rounded-lg'>
-      <div className="group relative aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-t-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7 rounded-lg">
+      <div className="group relative aspect-h-1 aspect-w-1 w-full overflow-hidden bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
         <img
-          src={imageUrl}
+          src={image_url}
           className="sm:h-full md:h-[25rem] lg:h-[20rem] xl:h-[20rem] w-full rounded-t-lg object-cover object-center group-hover:opacity-25"
         />
         <div className='absolute top-5 left-5 opacity-0 group-hover:opacity-100'>
