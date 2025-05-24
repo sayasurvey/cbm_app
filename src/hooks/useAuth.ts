@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { fetcher } from '../lib/utils';
 
 type User = {
   id: string;
@@ -37,20 +38,10 @@ export const useAuth = () => {
 
   const login = async (email: string, password: string) => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/login`, {
+      const data = await fetcher('api/login', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
         body: JSON.stringify({ email, password }),
-        credentials: 'include',
       });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || 'ログインに失敗しました');
-      }
 
       localStorage.setItem('token', data.token);
       localStorage.setItem('user', JSON.stringify(data.user));

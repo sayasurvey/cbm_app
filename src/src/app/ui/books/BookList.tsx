@@ -1,7 +1,8 @@
 "use client";
 
-import { ReactElement, useState } from 'react';
+import { ReactElement, useState, useEffect } from 'react';
 import { BorrowingModal } from './BorrowingModal';
+import { fetcher } from '../../../../lib/utils';
 
 interface Book {
   imageUrl: string;
@@ -42,32 +43,26 @@ function BookCard({ imageUrl, title, loanable }: BookCardProps): ReactElement {
 }
 
 export const BookList: React.FC = () => {
-  const books: Book[] = [
-    {
-      imageUrl:
-        'https://www.oreilly.co.jp/books/images/picture_large978-4-87311-565-8.jpeg',
-      title: 'リーダブルコード',
-      loanable: false
-    },
-    {
-      imageUrl:
-        'https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-02.jpg',
-      title: 'Nomad Tumbler',
-      loanable: true
-    },
-    {
-      imageUrl:
-        'https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-03.jpg',
-      title: 'Focus Paper Refill',
-      loanable: true
-    },
-    {
-      imageUrl:
-        'https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-04.jpg',
-      title: 'Machined Mechanical Pencil',
-      loanable: true
-    }
-  ];
+  const [books, setBooks] = useState<Book[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchBooks = async () => {
+      try {
+        const data = await fetcher('api/books');
+        
+        setBooks(data);
+      } catch (err) {
+        console.error('Error fetching books:', err);
+        setError(err instanceof Error ? err.message : '予期せぬエラーが発生しました');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchBooks();
+  }, []);
 
   return (
     <div className="bg-white">
