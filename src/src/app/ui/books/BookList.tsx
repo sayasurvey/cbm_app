@@ -31,7 +31,7 @@ interface BooksResponse {
   perPage: number;
 }
 
-const PER_PAGE = 50;
+const PER_PAGE = 1;
 
 export const BookList: React.FC = () => {
   const [books, setBooks] = useState<Book[]>([]);
@@ -75,37 +75,42 @@ export const BookList: React.FC = () => {
         </div>
         
         <div className="mt-8 flex justify-center">
-          <nav className="flex items-center gap-2">
-            <button
-              onClick={() => handlePageChange(currentPage - 1)}
-              disabled={currentPage === 1}
-              className="px-3 py-1 rounded border border-bd disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              前へ
-            </button>
+          <ul className="Pagination">
+            <li className="Pagination-Item">
+              <button
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                className="Pagination-Item-Link"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="Pagination-Item-Link-Icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
+                </svg>
+              </button>
+            </li>
             
             {Array.from({ length: lastPage }, (_, i) => i + 1).map((page) => (
-              <button
-                key={page}
-                onClick={() => handlePageChange(page)}
-                className={`px-3 py-1 rounded border ${
-                  currentPage === page
-                    ? 'bg-primary text-white border-primary'
-                    : 'border-bd hover:bg-gray-50'
-                }`}
-              >
-                {page}
-              </button>
+              <li key={page} className="Pagination-Item">
+                <button
+                  onClick={() => handlePageChange(page)}
+                  className={`Pagination-Item-Link ${currentPage === page ? 'isActive' : ''}`}
+                >
+                  <span>{page}</span>
+                </button>
+              </li>
             ))}
             
-            <button
-              onClick={() => handlePageChange(currentPage + 1)}
-              disabled={currentPage === lastPage}
-              className="px-3 py-1 rounded border border-bd disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              次へ
-            </button>
-          </nav>
+            <li className="Pagination-Item">
+              <button
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === lastPage}
+                className="Pagination-Item-Link"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="Pagination-Item-Link-Icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7" />
+                </svg>
+              </button>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
