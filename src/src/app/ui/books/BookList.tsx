@@ -44,7 +44,12 @@ export const BookList: React.FC = () => {
   useEffect(() => {
     const fetchBooks = async () => {
       try {
-        const data: BooksResponse = await fetcher(`api/books?page=${currentPage}&perPage=${PER_PAGE}`);
+        const params = new URLSearchParams({
+          page: currentPage.toString(),
+          perPage: PER_PAGE.toString()
+        });
+
+        const data: BooksResponse = await fetcher(`api/books?${params.toString()}`);
         const formattedData = data.books.map((book) => ({
           ...book,
           imageUrl: book.image_url
