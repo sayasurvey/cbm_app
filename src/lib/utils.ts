@@ -16,6 +16,7 @@ export async function fetcher(url: string, options: RequestInit = {}) {
 
   if (!response.ok) {
     if (response.status === 401) {
+      localStorage.removeItem('token');
       throw new Error('認証に失敗しました。再度ログインしてください。');
     }
     throw new Error('リクエストに失敗しました');
