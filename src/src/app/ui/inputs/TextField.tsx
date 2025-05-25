@@ -3,19 +3,19 @@
 import { ChangeEvent } from 'react';
 
 type TextFieldProps = {
-  value: string;
+  label: string;
   dataName: string;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 };
 
-export const TextField = ({ value, dataName, onChange }: TextFieldProps) => {
+export const TextField = ({ label, dataName, onChange }: TextFieldProps) => {
   return (
     <div>
       <label 
         htmlFor={dataName} 
         className="block text-sm font-medium leading-6 text-gray-900"
       >
-        {value}
+        {label}
       </label>
       <input
         id={dataName}

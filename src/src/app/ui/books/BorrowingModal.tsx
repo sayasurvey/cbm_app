@@ -15,7 +15,7 @@ export const BorrowingModal: React.FC<BorrowingModalProps> = ({ isOpen, onClose 
       <div className="modal-content bg-white p-6 rounded-lg z-10">
         <form className="space-y-6" action="#" method="POST">
           <div>
-            <TextField value='返却日' dataName='returnDate'/>
+            <TextField label='返却日' dataName='returnDate'/>
           </div>
 
           <div>
