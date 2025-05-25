@@ -3,6 +3,9 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
 }
 
 @theme inline {
@@ -23,4 +26,54 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.border-bd {
+  border-color: rgb(170, 170, 170);
+}
+
+.Pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.Pagination-Item {
+  margin: 0 4px;
+}
+
+.Pagination-Item-Link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  color: #4a5568;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.Pagination-Item-Link:hover {
+  background-color: #f7fafc;
+}
+
+.Pagination-Item-Link.isActive {
+  background-color: #4a5568;
+  color: white;
+  border-color: #4a5568;
+}
+
+.Pagination-Item-Link:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.Pagination-Item-Link-Icon {
+  width: 20px;
+  height: 20px;
 }

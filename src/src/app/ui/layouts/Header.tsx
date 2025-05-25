@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { useAuth } from '../../hooks/useAuth';
+import { useAuth } from '../../../../hooks/useAuth';
 
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -44,7 +44,7 @@ export const Header = () => {
             <div>
               <Link 
                 href="/books" 
-                className="block md:inline-block mr-3 hover:text-gray-400 transition-colors"
+                className="block md:inline-block mr-3 hover:text-gray-400 transition-colors font-bold"
               >
                 本の一覧
               </Link>
@@ -52,7 +52,7 @@ export const Header = () => {
             <div>
               <Link 
                 href="/books/register" 
-                className="block md:inline-block mr-3 hover:text-gray-400 transition-colors"
+                className="block md:inline-block mr-3 hover:text-gray-400 transition-colors font-bold"
               >
                 本の登録
               </Link>
@@ -63,14 +63,14 @@ export const Header = () => {
           {isLoggedIn ? (
             <button
               onClick={handleLogout}
-              className="block md:inline-block hover:text-gray-400 transition-colors"
+              className="block md:inline-block hover:text-gray-400 transition-colors font-bold"
             >
               ログアウト
             </button>
           ) : (
             <Link 
               href="/login" 
-              className="block md:inline-block hover:text-gray-400 transition-colors"
+              className="block md:inline-block hover:text-gray-400 transition-colors font-bold"
             >
               ログイン
             </Link>

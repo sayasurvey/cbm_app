@@ -1,9 +1,13 @@
+import { BookList } from '../ui/books/BookList';
+import { Title }  from '../ui/utils/Title';
+
 const BooksPage = () => {
   return (
-    <div style={{ textAlign: 'center', marginTop: '2rem', fontSize: '1.5rem' }}>
-      本一覧です
+    <div>
+      <Title value="本一覧"/>
+      <BookList />
     </div>
   );
-};
+}
 
 export default BooksPage;
