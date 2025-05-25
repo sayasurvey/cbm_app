@@ -20,7 +20,7 @@ interface BooksResponse {
   books: Array<{
     id: number;
     title: string;
-    image_url: string;
+    imageUrl: string;
     loanable: boolean;
     user: {
       id: number;
@@ -50,11 +50,7 @@ export const BookList: React.FC = () => {
         });
 
         const data: BooksResponse = await fetcher(`api/books?${params.toString()}`);
-        const formattedData = data.books.map((book) => ({
-          ...book,
-          imageUrl: book.image_url
-        }));
-        setBooks(formattedData);
+        setBooks(data.books);
         setLastPage(data.lastPage);
       } catch (err) {
         console.error('Error fetching books:', err);
