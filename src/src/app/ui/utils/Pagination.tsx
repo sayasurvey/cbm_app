@@ -49,4 +49,4 @@ export const Pagination: React.FC<PaginationProps> = ({
       </li>
     </ul>
   );
-}; 
+};
