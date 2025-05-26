@@ -43,6 +43,10 @@ export const useAuth = () => {
         body: JSON.stringify({ email, password }),
       });
 
+      const expires = new Date();
+      expires.setDate(expires.getDate() + 7);
+      document.cookie = `token=${data.token}; expires=${expires.toUTCString()}; path=/; SameSite=Lax`;
+
       localStorage.setItem('token', data.token);
       localStorage.setItem('user', JSON.stringify(data.user));
       
