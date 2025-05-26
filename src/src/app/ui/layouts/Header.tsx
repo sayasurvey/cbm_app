@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { useAuth } from '../../../../hooks/useAuth';
+import { deleteTokenCookie } from '../../../../lib/utils';
 
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -10,7 +11,7 @@ export const Header = () => {
 
   const handleLogout = () => {
     logout();
-    document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    deleteTokenCookie();
     window.location.href = '/login';
   };
 

@@ -1,8 +1,29 @@
-export async function fetcher(url: string, options: RequestInit = {}) {
-  const token = document.cookie
+const cookieOptions = {
+  path: '/',
+  httpOnly: true,
+  secure: process.env.NODE_ENV === 'production',
+  sameSite: 'lax' as const,
+};
+
+const setTokenCookie = (token: string) => {
+  const expires = new Date();
+  expires.setDate(expires.getDate() + 7);
+  document.cookie = `token=${token}; expires=${expires.toUTCString()}; path=/; SameSite=Lax`;
+};
+
+const getTokenFromCookie = () => {
+  return document.cookie
     .split('; ')
     .find(row => row.startsWith('token='))
     ?.split('=')[1];
+};
+
+const deleteTokenCookie = () => {
+  document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+};
+
+export async function fetcher(url: string, options: RequestInit = {}) {
+  const token = getTokenFromCookie();
 
   const headers = {
     'Content-Type': 'application/json',
@@ -19,7 +40,7 @@ export async function fetcher(url: string, options: RequestInit = {}) {
 
   if (!response.ok) {
     if (response.status === 401) {
-      document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+      deleteTokenCookie();
       throw new Error('認証に失敗しました。再度ログインしてください。');
     }
     const errorData = await response.json().catch(() => ({}));
@@ -28,3 +49,5 @@ export async function fetcher(url: string, options: RequestInit = {}) {
 
   return response.json();
 }
+
+export { setTokenCookie, getTokenFromCookie, deleteTokenCookie };

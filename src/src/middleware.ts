@@ -1,20 +1,22 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
-export function middleware(request: NextRequest) {
-  console.log('middleware', request.url)
-  
-  const allCookies = request.cookies.getAll()
+const getTokenFromCookie = (request: NextRequest) => {
+  const tokenCookie = request.cookies.get('token');
+  return tokenCookie?.value;
+};
 
-  const tokenCookie = allCookies.find(cookie => cookie.name === 'token')
-  const isAuthenticated = !!tokenCookie?.value
+export function middleware(request: NextRequest) {
+  
+  const token = getTokenFromCookie(request);
+  const isAuthenticated = !!token;
 
   if (!isAuthenticated) {
     console.log("ユーザーは未認証です。ログインページにリダイレクトします。")
     return NextResponse.redirect(new URL('/login', request.url))
   }
 
-  return NextResponse.next()
+  return NextResponse.next();
 }
 
 export const config = {
@@ -22,4 +24,4 @@ export const config = {
     '/books/:path*',
     '/api/books/:path*'
   ]
-}
+};
