@@ -1,6 +1,9 @@
 export async function fetcher(url: string, options: RequestInit = {}) {
-  const token = localStorage.getItem('token');
-  
+  const token = document.cookie
+    .split('; ')
+    .find(row => row.startsWith('token='))
+    ?.split('=')[1];
+
   const headers = {
     'Content-Type': 'application/json',
     ...(token && { 'Authorization': `Bearer ${token}` }),
@@ -8,7 +11,7 @@ export async function fetcher(url: string, options: RequestInit = {}) {
   };
 
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${url}`, {
-    method: 'GET',
+    method: options.method || 'GET',
     ...options,
     headers,
     credentials: 'include',
@@ -16,10 +19,11 @@ export async function fetcher(url: string, options: RequestInit = {}) {
 
   if (!response.ok) {
     if (response.status === 401) {
-      localStorage.removeItem('token');
+      document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
       throw new Error('認証に失敗しました。再度ログインしてください。');
     }
-    throw new Error('リクエストに失敗しました');
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(errorData.message || 'リクエストに失敗しました');
   }
 
   return response.json();

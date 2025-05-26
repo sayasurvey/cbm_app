@@ -19,10 +19,9 @@ export const useAuth = () => {
   });
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
     const userStr = localStorage.getItem('user');
     
-    if (token && userStr) {
+    if (userStr) {
       try {
         const user = JSON.parse(userStr);
         setAuthState({
@@ -47,7 +46,6 @@ export const useAuth = () => {
       expires.setDate(expires.getDate() + 7);
       document.cookie = `token=${data.token}; expires=${expires.toUTCString()}; path=/; SameSite=Lax`;
 
-      localStorage.setItem('token', data.token);
       localStorage.setItem('user', JSON.stringify(data.user));
       
       setAuthState({
@@ -66,7 +64,6 @@ export const useAuth = () => {
   };
 
   const logout = () => {
-    localStorage.removeItem('token');
     localStorage.removeItem('user');
     setAuthState({
       isLoggedIn: false,
