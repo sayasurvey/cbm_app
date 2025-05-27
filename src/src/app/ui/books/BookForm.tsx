@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import { Button } from '../buttons/Button';
 import { TextField } from '../inputs/TextField';
+import { fetcher } from '../../../../lib/utils';
+import { useRouter } from 'next/navigation';
 
 interface BookFormData {
   title: string;
@@ -11,11 +13,13 @@ interface BookFormData {
 }
 
 export const BookForm = () => {
+  const router = useRouter();
   const [formData, setFormData] = useState<BookFormData>({
     title: '',
     imageUrl: '',
     loanable: true
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -34,7 +38,20 @@ export const BookForm = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
+    setIsSubmitting(true);
+
+    try {
+      await fetcher('api/books', {
+        method: 'POST',
+        body: JSON.stringify(formData),
+      });
+
+      router.push('/books');
+    } catch (error) {
+      console.error('本の登録に失敗しました:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -92,7 +109,11 @@ export const BookForm = () => {
 
           <div>
             <div className="mt-2">
-              <Button value="登録" type="submit" />
+              <Button 
+                value={isSubmitting ? '登録中...' : '登録'} 
+                type="submit"
+                disabled={isSubmitting}
+              />
             </div>
           </div>
         </form>
