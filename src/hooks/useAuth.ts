@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { fetcher } from '../lib/utils';
+import { fetcher, setTokenCookie, deleteTokenCookie } from '../lib/utils';
 
 type User = {
   id: string;
@@ -19,10 +19,9 @@ export const useAuth = () => {
   });
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
     const userStr = localStorage.getItem('user');
     
-    if (token && userStr) {
+    if (userStr) {
       try {
         const user = JSON.parse(userStr);
         setAuthState({
@@ -43,7 +42,7 @@ export const useAuth = () => {
         body: JSON.stringify({ email, password }),
       });
 
-      localStorage.setItem('token', data.token);
+      setTokenCookie(data.token);
       localStorage.setItem('user', JSON.stringify(data.user));
       
       setAuthState({
@@ -62,7 +61,7 @@ export const useAuth = () => {
   };
 
   const logout = () => {
-    localStorage.removeItem('token');
+    deleteTokenCookie();
     localStorage.removeItem('user');
     setAuthState({
       isLoggedIn: false,
