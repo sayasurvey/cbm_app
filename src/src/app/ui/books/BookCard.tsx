@@ -4,15 +4,17 @@ import { ReactElement, useState } from 'react';
 import { BorrowingModal } from './BorrowingModal';
 
 interface Book {
-  bookId: number;
+  id: number;
   imageUrl: string;
   title: string;
   loanable: boolean;
 }
 
-interface BookCardProps extends Book {}
+interface BookCardProps extends Book {
+  onBorrowSuccess: () => void;
+}
 
-export function BookCard({ bookId, imageUrl, title, loanable }: BookCardProps): ReactElement {
+export function BookCard({ id, imageUrl, title, loanable, onBorrowSuccess }: BookCardProps): ReactElement {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleBorrowClick = () => {
@@ -39,8 +41,9 @@ export function BookCard({ bookId, imageUrl, title, loanable }: BookCardProps): 
       </div>
       <BorrowingModal 
         isOpen={isModalOpen} 
+        bookId={id}
         onClose={() => setIsModalOpen(false)} 
-        bookId={bookId}
+        onBorrowSuccess={onBorrowSuccess}
       />
     </div>
   );

@@ -5,11 +5,12 @@ import { fetcher } from '../../../../lib/utils';
 
 interface BorrowingModalProps {
   isOpen: boolean;
-  onClose: () => void;
   bookId: number;
+  onClose: () => void;
+  onBorrowSuccess: () => void;
 }
 
-export const BorrowingModal: React.FC<BorrowingModalProps> = ({ isOpen, onClose, bookId }) => {
+export const BorrowingModal: React.FC<BorrowingModalProps> = ({ isOpen, bookId, onClose, onBorrowSuccess }) => {
   const [returnDate, setReturnDate] = useState('');
 
   if (!isOpen) return null;
@@ -26,6 +27,7 @@ export const BorrowingModal: React.FC<BorrowingModalProps> = ({ isOpen, onClose,
         })
       });
 
+      onBorrowSuccess();
       onClose();
     } catch (error) {
       console.error('Error:', error);
