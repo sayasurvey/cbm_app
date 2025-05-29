@@ -5,10 +5,12 @@ import { ChangeEvent } from 'react';
 type TextFieldProps = {
   label: string;
   dataName: string;
+  value?: string;
+  type?: string;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 };
 
-export const TextField = ({ label, dataName, onChange }: TextFieldProps) => {
+export const TextField = ({ label, dataName, value, type = 'text', onChange }: TextFieldProps) => {
   return (
     <div>
       <label 
@@ -20,7 +22,8 @@ export const TextField = ({ label, dataName, onChange }: TextFieldProps) => {
       <input
         id={dataName}
         name={dataName}
-        type={dataName === 'password' ? 'password' : 'text'}
+        type={type}
+        value={value}
         onChange={onChange}
         autoComplete={dataName === 'password' ? 'current-password' : 'off'}
         required

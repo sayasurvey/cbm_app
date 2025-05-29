@@ -62,6 +62,7 @@ const LoginForm = () => {
               <TextField
                 label="パスワード"
                 dataName="password"
+                type="password"
                 onChange={handleChange}
               />
             </div>
