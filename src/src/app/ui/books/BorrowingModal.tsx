@@ -27,8 +27,11 @@ export const BorrowingModal: React.FC<BorrowingModalProps> = ({ isOpen, bookId, 
         })
       });
 
-      onBorrowSuccess();
-      onClose();
+      await onBorrowSuccess();
+      await onClose();
+      setTimeout(() => {
+        alert('貸し出し処理が完了しました');
+      }, 100);
     } catch (error) {
       console.error('Error:', error);
       alert('貸出処理に失敗しました');
