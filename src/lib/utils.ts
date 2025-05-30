@@ -1,3 +1,5 @@
+import { redirect } from 'next/navigation'
+
 const cookieOptions = {
   path: '/',
   httpOnly: true,
@@ -41,7 +43,7 @@ export async function fetcher(url: string, options: RequestInit = {}) {
   if (!response.ok) {
     if (response.status === 401) {
       deleteTokenCookie();
-      throw new Error('認証に失敗しました。再度ログインしてください。');
+      redirect('/login');
     }
     const errorData = await response.json().catch(() => ({}));
     throw new Error(errorData.message || 'リクエストに失敗しました');

@@ -4,14 +4,17 @@ import { ReactElement, useState } from 'react';
 import { BorrowingModal } from './BorrowingModal';
 
 interface Book {
+  id: number;
   imageUrl: string;
   title: string;
   loanable: boolean;
 }
 
-interface BookCardProps extends Book {}
+interface BookCardProps extends Book {
+  onBorrowSuccess: () => void;
+}
 
-export function BookCard({ imageUrl, title, loanable }: BookCardProps): ReactElement {
+export function BookCard({ id, imageUrl, title, loanable, onBorrowSuccess }: BookCardProps): ReactElement {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleBorrowClick = () => {
@@ -36,7 +39,12 @@ export function BookCard({ imageUrl, title, loanable }: BookCardProps): ReactEle
         <p onClick={handleBorrowClick} className={`py-1 w-full text-center border-r border-bd cursor-pointer ${loanable ? '' : 'text-gray-400 cursor-not-allowed'}`}>借りる</p>
         <p className="py-1 w-full text-center">借りたい</p>
       </div>
-      <BorrowingModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      <BorrowingModal 
+        isOpen={isModalOpen} 
+        bookId={id}
+        onClose={() => setIsModalOpen(false)} 
+        onBorrowSuccess={onBorrowSuccess}
+      />
     </div>
   );
 }
