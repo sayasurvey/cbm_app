@@ -1,32 +1,20 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { fetcher } from '../../../../lib/utils';
-import { BookCard } from './BookCard';
-import { Pagination } from '../utils/Pagination';
+import { fetcher } from '../../../../../lib/utils';
+import { BorrowedBookCard } from './BorrowedBookCard';
+import { Pagination } from '../../utils/Pagination';
 
-interface Book {
+interface BorrowedBooks {
   id: number;
   imageUrl: string;
   title: string;
-  loanable: boolean;
-  user: {
-    id: number;
-    name: string;
-  };
+  checkoutDate: string;
+  returnDueDate: string;
 }
 
-interface BooksResponse {
-  books: Array<{
-    id: number;
-    title: string;
-    imageUrl: string;
-    loanable: boolean;
-    user: {
-      id: number;
-      name: string;
-    };
-  }>;
+interface BorrowedBooksResponse {
+  borrowedBooks: Array<BorrowedBooks>;
   currentPage: number;
   lastPage: number;
   perPage: number;
@@ -34,8 +22,8 @@ interface BooksResponse {
 
 const PER_PAGE = 50;
 
-export const BookList: React.FC = () => {
-  const [books, setBooks] = useState<Book[]>([]);
+export const BorrowedBookList: React.FC = () => {
+  const [borrowedBooks, setBorrowedBooks] = useState<BorrowedBooks[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -48,11 +36,12 @@ export const BookList: React.FC = () => {
         perPage: PER_PAGE.toString()
       });
 
-      const data: BooksResponse = await fetcher(`api/books?${params.toString()}`);
-      setBooks(data.books);
+      const data: BorrowedBooksResponse = await fetcher(`api/books/borrowed?${params.toString()}`);
+      console.log(data);
+      setBorrowedBooks(data.borrowedBooks);
       setLastPage(data.lastPage);
     } catch (err) {
-      console.error('本一覧の取得に失敗しました:', err);
+      console.error('借りた本の一覧の取得に失敗しました:', err);
       setError(err instanceof Error ? err.message : '予期せぬエラーが発生しました');
     } finally {
       setIsLoading(false);
@@ -71,11 +60,11 @@ export const BookList: React.FC = () => {
     <div className="bg-white">
       <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-8 lg:max-w-7xl lg:px-8">
         <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 xl:gap-x-8">
-          {books.map((book) => (
-            <BookCard 
+          {borrowedBooks.map((book) => (
+            <BorrowedBookCard 
               key={book.id} 
               {...book}
-              onBorrowSuccess={fetchBooks}
+              onReturnSuccess={fetchBooks}
             />
           ))}
         </div>
