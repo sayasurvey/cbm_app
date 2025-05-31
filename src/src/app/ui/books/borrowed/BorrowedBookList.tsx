@@ -37,7 +37,7 @@ export const BorrowedBookList: React.FC = () => {
       });
 
       const data: BorrowedBooksResponse = await fetcher(`api/books/borrowed?${params.toString()}`);
-      console.log(data);
+
       setBorrowedBooks(data.borrowedBooks);
       setLastPage(data.lastPage);
     } catch (err) {

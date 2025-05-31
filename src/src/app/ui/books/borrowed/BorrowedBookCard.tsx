@@ -1,6 +1,7 @@
 "use client";
 
 import { ReactElement, useState } from 'react';
+import { fetcher } from '../../../../../lib/utils';
 
 interface BorrowedBook {
   id: number;
@@ -17,8 +18,28 @@ interface BookCardProps extends BorrowedBook {
 export function BorrowedBookCard({ id, imageUrl, title, checkoutDate, returnDueDate, onReturnSuccess }: BookCardProps): ReactElement {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleReturnClick = () => {
+  const handleReturnClick = async () => {
+    const isConfirmed = window.confirm('本の返却が完了しましたか？');
+    
+    if (isConfirmed) {
+      try {
+        const response = await fetcher('api/books/return', {
+          method: 'POST',
+          body: JSON.stringify({
+            'borrowedBookId': id
+          }),
+        });
 
+        if (response.status === 200) {
+          onReturnSuccess();
+        } else {
+          alert('返却処理に失敗しました。');
+        }
+      } catch (error) {
+        console.error('返却処理中にエラーが発生しました:', error);
+        alert('返却処理中にエラーが発生しました。');
+      }
+    }
   };
 
   return (
