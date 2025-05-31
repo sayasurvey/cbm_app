@@ -41,12 +41,18 @@ export async function fetcher(url: string, options: RequestInit = {}) {
   });
 
   if (!response.ok) {
-    if (response.status === 401) {
-      deleteTokenCookie();
-      redirect('/login');
+    switch (response.status) {
+      case 401:
+        deleteTokenCookie();
+        redirect('/login');
+      case 403:
+        throw new Error('権限がありません');
+      case 404:
+        throw new Error('ページが見つかりません');
+      default:
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message);
     }
-    const errorData = await response.json().catch(() => ({}));
-    throw new Error(errorData.message || 'リクエストに失敗しました');
   }
 
   return response.json();

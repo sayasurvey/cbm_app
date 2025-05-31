@@ -23,18 +23,15 @@ export function BorrowedBookCard({ id, imageUrl, title, checkoutDate, returnDueD
     
     if (isConfirmed) {
       try {
-        const response = await fetcher('api/books/return', {
+        await fetcher('api/books/return', {
           method: 'POST',
           body: JSON.stringify({
             'borrowedBookId': id
           }),
         });
 
-        if (response.status === 200) {
-          onReturnSuccess();
-        } else {
-          alert('返却処理に失敗しました。');
-        }
+        onReturnSuccess();
+        alert('返却処理が完了しました。');
       } catch (error) {
         console.error('返却処理中にエラーが発生しました:', error);
         alert('返却処理中にエラーが発生しました。');
