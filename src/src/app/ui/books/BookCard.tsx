@@ -18,6 +18,7 @@ interface BookCardProps extends Book {
 
 export function BookCard({ id, imageUrl, title, loanable, isWishList, onBorrowSuccess }: BookCardProps): ReactElement {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const wishListButtonText = isWishList ? '登録解除' : '借りたい';
 
   const handleBorrowClick = () => {
     if (loanable) {
@@ -27,17 +28,33 @@ export function BookCard({ id, imageUrl, title, loanable, isWishList, onBorrowSu
 
   const handleWishClick = async () => {
     try {
-      await fetcher('api/books/wish-list', {
-        method: 'POST',
-        body: JSON.stringify({
-          book_id: id
-        })
-      });
-      alert('読みたい本リストに追加しました');
+      if (isWishList) {
+        await handleRemoveFromWishList();
+      } else {
+        await handleAddToWishList()
+      }
+      onBorrowSuccess();
     } catch (error) {
-      console.error('読みたい本リストへの追加に失敗しました:', error);
-      alert('読みたい本リストへの追加に失敗しました');
+      console.error('読みたい本リストの操作に失敗しました:', error);
+      alert('読みたい本リストの操作に失敗しました');
     }
+  };
+
+  const handleRemoveFromWishList = async () => {
+    await fetcher(`api/books/wish-list/${id}`, {
+      method: 'DELETE'
+    });
+    alert('読みたい本リストから削除しました');
+  };
+
+  const handleAddToWishList = async () => {
+    await fetcher('api/books/wish-list', {
+      method: 'POST',
+      body: JSON.stringify({
+        book_id: id
+      })
+    });
+    alert('読みたい本リストに追加しました');
   };
 
   return (
@@ -54,7 +71,7 @@ export function BookCard({ id, imageUrl, title, loanable, isWishList, onBorrowSu
       </div>
       <div className='flex rounded-lg'>
         <p onClick={handleBorrowClick} className={`py-1 w-full text-center border-r border-bd cursor-pointer ${loanable ? '' : 'text-gray-400 cursor-not-allowed'}`}>借りる</p>
-        <p onClick={handleWishClick} className="py-1 w-full text-center cursor-pointer">{isWishList ? '登録解除' : '借りたい'}</p>
+        <p onClick={handleWishClick} className="py-1 w-full text-center cursor-pointer">{wishListButtonText}</p>
       </div>
       <BorrowingModal 
         isOpen={isModalOpen} 
