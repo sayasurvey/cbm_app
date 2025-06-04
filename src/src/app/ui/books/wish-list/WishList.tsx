@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { fetcher } from '../../../../../lib/utils';
 import { BookActionCard } from '../BookActionCard';
 import { Pagination } from '../../utils/Pagination';
+import { PER_PAGE } from '../../constants/pagination';
 
 interface Book {
   id: number;
@@ -17,8 +18,6 @@ interface WishListResponse {
   lastPage: number;
   perPage: number;
 }
-
-const PER_PAGE = 50;
 
 export const WishList: React.FC = () => {
   const [wishList, setWishList] = useState<Book[]>([]);
