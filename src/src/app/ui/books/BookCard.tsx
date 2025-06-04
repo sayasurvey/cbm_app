@@ -2,6 +2,7 @@
 
 import { ReactElement, useState } from 'react';
 import { BorrowingModal } from './BorrowingModal';
+import { fetcher } from '../../../../lib/utils';
 
 interface Book {
   id: number;
@@ -23,6 +24,21 @@ export function BookCard({ id, imageUrl, title, loanable, onBorrowSuccess }: Boo
     }
   };
 
+  const handleWishClick = async () => {
+    try {
+      await fetcher('api/books/wish-list', {
+        method: 'POST',
+        body: JSON.stringify({
+          book_id: id
+        })
+      });
+      alert('読みたい本リストに追加しました');
+    } catch (error) {
+      console.error('読みたい本リストへの追加に失敗しました:', error);
+      alert('読みたい本リストへの追加に失敗しました');
+    }
+  };
+
   return (
     <div className='border border-bd rounded-lg'>
       <div className="group relative aspect-h-1 aspect-w-1 w-full overflow-hidden bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
@@ -37,7 +53,7 @@ export function BookCard({ id, imageUrl, title, loanable, onBorrowSuccess }: Boo
       </div>
       <div className='flex rounded-lg'>
         <p onClick={handleBorrowClick} className={`py-1 w-full text-center border-r border-bd cursor-pointer ${loanable ? '' : 'text-gray-400 cursor-not-allowed'}`}>借りる</p>
-        <p className="py-1 w-full text-center">借りたい</p>
+        <p onClick={handleWishClick} className="py-1 w-full text-center cursor-pointer">借りたい</p>
       </div>
       <BorrowingModal 
         isOpen={isModalOpen} 
