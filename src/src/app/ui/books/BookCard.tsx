@@ -9,13 +9,14 @@ interface Book {
   imageUrl: string;
   title: string;
   loanable: boolean;
+  isWishList: boolean;
 }
 
 interface BookCardProps extends Book {
   onBorrowSuccess: () => void;
 }
 
-export function BookCard({ id, imageUrl, title, loanable, onBorrowSuccess }: BookCardProps): ReactElement {
+export function BookCard({ id, imageUrl, title, loanable, isWishList, onBorrowSuccess }: BookCardProps): ReactElement {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleBorrowClick = () => {
@@ -53,7 +54,7 @@ export function BookCard({ id, imageUrl, title, loanable, onBorrowSuccess }: Boo
       </div>
       <div className='flex rounded-lg'>
         <p onClick={handleBorrowClick} className={`py-1 w-full text-center border-r border-bd cursor-pointer ${loanable ? '' : 'text-gray-400 cursor-not-allowed'}`}>借りる</p>
-        <p onClick={handleWishClick} className="py-1 w-full text-center cursor-pointer">借りたい</p>
+        <p onClick={handleWishClick} className="py-1 w-full text-center cursor-pointer">{isWishList ? '登録解除' : '借りたい'}</p>
       </div>
       <BorrowingModal 
         isOpen={isModalOpen} 

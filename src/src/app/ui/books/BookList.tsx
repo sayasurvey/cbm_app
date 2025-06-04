@@ -10,6 +10,7 @@ interface Book {
   imageUrl: string;
   title: string;
   loanable: boolean;
+  isWishList: boolean;
   user: {
     id: number;
     name: string;
@@ -17,16 +18,7 @@ interface Book {
 }
 
 interface BooksResponse {
-  books: Array<{
-    id: number;
-    title: string;
-    imageUrl: string;
-    loanable: boolean;
-    user: {
-      id: number;
-      name: string;
-    };
-  }>;
+  books: Book[]
   currentPage: number;
   lastPage: number;
   perPage: number;
