@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { fetcher } from '../../../../../lib/utils';
 import { BookActionCard } from '../BookActionCard';
 import { Pagination } from '../../utils/Pagination';
-import { PER_PAGE } from '../../constants/pagination';
+import { PER_PAGE } from '../../../../constants/utils';
 
 interface Book {
   id: number;
