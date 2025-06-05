@@ -70,7 +70,10 @@ export function BookCard({ id, imageUrl, title, loanable, isWishList, onBorrowSu
         </div>
       </div>
       <div className='flex rounded-lg'>
-        <p onClick={handleBorrowClick} className={`py-1 w-full text-center border-r border-bd cursor-pointer ${loanable ? '' : 'text-gray-400 cursor-not-allowed'}`}>借りる</p>
+        <p
+          onClick={handleBorrowClick}
+          className={`py-1 w-full text-center border-r border-bd cursor-pointer ${loanable ? '' : 'text-gray-400 cursor-not-allowed'}`}
+        >借りる</p>
         <p onClick={handleWishClick} className="py-1 w-full text-center cursor-pointer">{wishListButtonText}</p>
       </div>
       <BorrowingModal 
