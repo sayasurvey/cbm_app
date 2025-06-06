@@ -67,6 +67,14 @@ export const Header = () => {
                 借りた本
               </Link>
             </div>
+            <div>
+              <Link 
+                href="/books/wish-list" 
+                className="block md:inline-block mr-3 hover:text-gray-400 transition-colors font-bold"
+              >
+                借りたい本
+              </Link>
+            </div>
           </>
         )}
         <div>

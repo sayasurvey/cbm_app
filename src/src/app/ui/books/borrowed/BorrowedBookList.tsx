@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { fetcher } from '../../../../../lib/utils';
 import { BorrowedBookCard } from './BorrowedBookCard';
 import { Pagination } from '../../utils/Pagination';
+import { PER_PAGE } from '../../../../constants/utils';
 
 interface BorrowedBooks {
   id: number;
@@ -19,8 +20,6 @@ interface BorrowedBooksResponse {
   lastPage: number;
   perPage: number;
 }
-
-const PER_PAGE = 50;
 
 export const BorrowedBookList: React.FC = () => {
   const [borrowedBooks, setBorrowedBooks] = useState<BorrowedBooks[]>([]);

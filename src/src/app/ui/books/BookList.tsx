@@ -4,12 +4,14 @@ import { useState, useEffect } from 'react';
 import { fetcher } from '../../../../lib/utils';
 import { BookCard } from './BookCard';
 import { Pagination } from '../utils/Pagination';
+import { PER_PAGE } from '../../../constants/utils';
 
 interface Book {
   id: number;
   imageUrl: string;
   title: string;
   loanable: boolean;
+  isWishList: boolean;
   user: {
     id: number;
     name: string;
@@ -17,22 +19,11 @@ interface Book {
 }
 
 interface BooksResponse {
-  books: Array<{
-    id: number;
-    title: string;
-    imageUrl: string;
-    loanable: boolean;
-    user: {
-      id: number;
-      name: string;
-    };
-  }>;
+  books: Book[]
   currentPage: number;
   lastPage: number;
   perPage: number;
 }
-
-const PER_PAGE = 50;
 
 export const BookList: React.FC = () => {
   const [books, setBooks] = useState<Book[]>([]);
