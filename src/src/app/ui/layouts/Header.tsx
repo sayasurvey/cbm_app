@@ -1,12 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
 import { useAuth } from '../../../../hooks/useAuth';
 import { deleteTokenCookie } from '../../../../lib/utils';
 
 export const Header = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { isLoggedIn, logout } = useAuth();
 
   const handleLogout = () => {
@@ -32,15 +30,7 @@ export const Header = () => {
         )}
       </div>
 
-      <nav className={`
-        ${isMenuOpen ? 'block' : 'hidden'} 
-        md:flex md:items-center
-        absolute md:relative
-        top-16 md:top-0
-        left-0 right-0
-        bg-gray-800 md:bg-transparent
-        p-4 md:p-0
-      `}>
+      <nav className="md:flex md:items-center">
         {isLoggedIn && (
           <>
             <div>

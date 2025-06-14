@@ -1,11 +1,5 @@
 import { redirect } from 'next/navigation'
 
-const cookieOptions = {
-  path: '/',
-  httpOnly: true,
-  secure: process.env.NODE_ENV === 'production',
-  sameSite: 'lax' as const,
-};
 
 const setTokenCookie = (token: string) => {
   const expires = new Date();

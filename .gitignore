@@ -29,3 +29,4 @@ yarn-error.log*
 *.tsbuildinfo
 /src/next-env.d.ts
 
+CLAUDE.md

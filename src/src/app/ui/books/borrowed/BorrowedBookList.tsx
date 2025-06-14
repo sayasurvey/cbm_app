@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { fetcher } from '../../../../../lib/utils';
 import { BorrowedBookCard } from './BorrowedBookCard';
 import { Pagination } from '../../utils/Pagination';
@@ -23,12 +23,10 @@ interface BorrowedBooksResponse {
 
 export const BorrowedBookList: React.FC = () => {
   const [borrowedBooks, setBorrowedBooks] = useState<BorrowedBooks[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
 
-  const fetchBooks = async () => {
+  const fetchBooks = useCallback(async () => {
     try {
       const params = new URLSearchParams({
         page: currentPage.toString(),
@@ -41,11 +39,8 @@ export const BorrowedBookList: React.FC = () => {
       setLastPage(data.lastPage);
     } catch (err) {
       console.error('借りた本の一覧の取得に失敗しました:', err);
-      setError(err instanceof Error ? err.message : '予期せぬエラーが発生しました');
-    } finally {
-      setIsLoading(false);
     }
-  };
+  }, [currentPage]);
 
   useEffect(() => {
     fetchBooks();

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { fetcher } from '../../../../../lib/utils';
 import { BookActionCard } from '../BookActionCard';
 import { Pagination } from '../../utils/Pagination';
@@ -26,7 +26,7 @@ export const WishList: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
 
-  const fetchWishList = async () => {
+  const fetchWishList = useCallback(async () => {
     try {
       const params = new URLSearchParams({
         page: currentPage.toString(),
@@ -43,23 +43,23 @@ export const WishList: React.FC = () => {
         setError('データの取得に失敗しました');
       }
     } catch (err) {
-      console.error('読みたい本リストの取得に失敗しました:', err);
+      console.error('借りたい本リストの取得に失敗しました:', err);
       setError(err instanceof Error ? err.message : '予期せぬエラーが発生しました');
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [currentPage]);
 
   const handleRemoveFromWishList = async (bookId: number) => {
     try {
       await fetcher(`api/books/wish-list/${bookId}`, {
         method: 'DELETE'
       });
-      alert('読みたい本リストから削除しました');
+      alert('借りたい本リストから削除しました');
       fetchWishList();
     } catch (error) {
-      console.error('読みたい本リストからの削除に失敗しました:', error);
-      alert('読みたい本リストからの削除に失敗しました');
+      console.error('借りたい本リストからの削除に失敗しました:', error);
+      alert('借りたい本リストからの削除に失敗しました');
     }
   };
 
@@ -89,7 +89,7 @@ export const WishList: React.FC = () => {
             ))
           ) : (
             <div className="col-span-full text-center py-8">
-              読みたい本リストに登録されている本はありません
+              借りたい本リストに登録されている本はありません
             </div>
           )}
         </div>

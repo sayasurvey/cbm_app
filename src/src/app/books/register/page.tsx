@@ -2,10 +2,8 @@
 
 import { BookForm } from '../../ui/books/BookForm';
 
-export const BookRegistrationForm = () => {
+export default function BookRegistrationPage() {
   return (
     <BookForm />
   );
-};
-
-export default BookRegistrationForm;
+}

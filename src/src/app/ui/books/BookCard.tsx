@@ -35,8 +35,8 @@ export function BookCard({ id, imageUrl, title, loanable, isWishList, onBorrowSu
       }
       onBorrowSuccess();
     } catch (error) {
-      console.error('読みたい本リストの操作に失敗しました:', error);
-      alert('読みたい本リストの操作に失敗しました');
+      console.error('借りたい本リストの操作に失敗しました:', error);
+      alert('借りたい本リストの操作に失敗しました');
     }
   };
 
@@ -44,7 +44,7 @@ export function BookCard({ id, imageUrl, title, loanable, isWishList, onBorrowSu
     await fetcher(`api/books/wish-list/${id}`, {
       method: 'DELETE'
     });
-    alert('読みたい本リストから削除しました');
+    alert('借りたい本リストから削除しました');
   };
 
   const handleAddToWishList = async () => {
@@ -54,7 +54,7 @@ export function BookCard({ id, imageUrl, title, loanable, isWishList, onBorrowSu
         book_id: id
       })
     });
-    alert('読みたい本リストに追加しました');
+    alert('借りたい本リストに追加しました');
   };
 
   return (
