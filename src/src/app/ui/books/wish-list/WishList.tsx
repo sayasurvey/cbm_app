@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { fetcher } from '../../../../../lib/utils';
 import { BookActionCard } from '../BookActionCard';
 import { Pagination } from '../../utils/Pagination';
@@ -26,7 +26,7 @@ export const WishList: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
 
-  const fetchWishList = async () => {
+  const fetchWishList = useCallback(async () => {
     try {
       const params = new URLSearchParams({
         page: currentPage.toString(),
@@ -48,7 +48,7 @@ export const WishList: React.FC = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [currentPage]);
 
   const handleRemoveFromWishList = async (bookId: number) => {
     try {
