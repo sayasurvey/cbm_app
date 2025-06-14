@@ -39,6 +39,7 @@ export const UserRegistrationForm = () => {
         body: JSON.stringify(formData),
       });
 
+      alert('ユーザの登録が完了しました');
       router.push('/login');
     } catch (error) {
       console.error('ユーザ登録に失敗しました:', error);

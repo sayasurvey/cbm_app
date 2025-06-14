@@ -79,7 +79,7 @@ const LoginForm = () => {
 
           <p className="mt-3 text-center text-sm text-gray-500">
             <Link 
-              href="/signup" 
+              href="/users/register" 
               className="font-semibold leading-6 text-gray-600 hover:text-gray-500 transition-colors"
             >
               新規会員登録はこちら
