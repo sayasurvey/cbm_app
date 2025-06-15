@@ -34,7 +34,7 @@ export const UserRegistrationForm = () => {
     setIsSubmitting(true);
 
     try {
-      await fetcher('api/register', {
+      await fetcher('api/users/register', {
         method: 'POST',
         body: JSON.stringify(formData),
       });
