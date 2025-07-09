@@ -30,3 +30,9 @@ yarn-error.log*
 /src/next-env.d.ts
 
 CLAUDE.md
+
+*storybook.log
+storybook-static
+
+/node_modules/*
+node_modules
